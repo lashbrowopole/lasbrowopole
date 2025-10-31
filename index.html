@@ -1,5 +1,11 @@
 <html>
    <head>
+	<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("bF1B5n8kPPRpBdWAY"); // замените на свой public key
+  })();
+</script>
       <meta charset="utf-8">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -879,7 +885,7 @@
 </style>
 
 <div class="form-wrapper">
-  <form action="#" method="POST">
+  <form id="contactForm" action="#" method="POST">
     <label for="email">E-mail</label>
     <input type="email" id="email" name="Email" placeholder="Twój E-mail" required>
 
@@ -894,6 +900,23 @@
 
     <button type="submit">Zarezerwuj miejsce</button>
   </form>
+
+<script>
+  const form = document.getElementById("contactForm");
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    emailjs.sendForm("service_34wz7qi", "template_5dnhzsq", this)
+      .then(function() {
+        alert("✅ Wiadomość wysłana pomyślnie!");
+        form.reset();
+      }, function(error) {
+        console.error("❌ Błąd wysyłki:", error);
+        alert("Ups! Coś poszło nie tak.");
+      });
+  });
+</script>
 </div>
 
 
