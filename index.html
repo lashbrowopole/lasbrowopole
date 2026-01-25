@@ -873,32 +873,38 @@ Bardzo polecam, bo atmosfera była przemiła, a podejście do kursantek naprawd�
 
         <!-- Slider -->
 <script>
-const slider = document.querySelector('.slider-inner');
-const slidesInslider = document.querySelectorAll('input[name="slider"]');
-let startX = 0;
-let currentSlideInSlider = 0;
+document.addEventListener('DOMContentLoaded', () => {
 
-slider.addEventListener('touchstart', (e) => {
-  startX = e.touches[0].clientX;
-});
+  const gallery = document.querySelector('#galeria');
+  if (!gallery) return;
 
-slider.addEventListener('touchend', (e) => {
-  const endX = e.changedTouches[0].clientX;
-  const diff = startX - endX;
-  
-  // если свайп больше 50px
-  if (Math.abs(diff) > 50) {
-    if (diff > 0 && currentSlideInSlider < slidesInslider.length - 1) {
-      // свайп влево - следующий слайд
-      currentSlideInSlider++;
-    } else if (diff < 0 && currentSlideInSlider > 0) {
-      // свайп вправо - предыдущий слайд
-      currentSlideInSlider--;
+  const sliderInner = gallery.querySelector('.slider-inner');
+  const radioButtons = gallery.querySelectorAll('input[name="slider"]');
+
+  let startX = 0;
+  let currentSlide = 0;
+
+  sliderInner.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  sliderInner.addEventListener('touchend', (e) => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && currentSlide < radioButtons.length - 1) {
+        currentSlide++;
+      } else if (diff < 0 && currentSlide > 0) {
+        currentSlide--;
+      }
+      radioButtons[currentSlide].checked = true;
     }
-    slidesInslider[currentSlideInSlider].checked = true;
-  }
+  });
+
 });
 </script>
+
 <div id="galeria" class="slider">
 
   <input checked type="radio" name="slider" id="s1">
@@ -943,7 +949,7 @@ slider.addEventListener('touchend', (e) => {
                 <div class="slide">
           <img src="img/slider/5.png">
           <div class="caption">
-            <p>Naturalny efekt, zero przerysowania</p>
+            <p>ИNaturalny efekt, zero przerysowania</p>
           </div>
         </div>
 
