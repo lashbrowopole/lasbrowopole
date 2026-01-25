@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пропозиція навчання</title>
+    
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <style>
+        * { box-sizing: border-box; }
+        
+        body {
+            margin: 0;
+            font-family: 'Georgia', serif;
+            line-height: 1.55;
+            color: #000;
+            background: #fff;
+        }
+        
+        img { max-width: 100%; height: auto; display: block; }
+        
+        /* Container */
+        .t-container, .t-section__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .t-container_100 { max-width: 100%; padding: 0; }
+        .t-container_flex { display: flex; flex-wrap: wrap; }
+        
+        /* Grid */
+        .t-col { padding: 0 15px; }
+        .t-col_4 { width: 33.333%; }
+        .t-col_5 { width: 41.666%; }
+        .t-col_6 { width: 50%; }
+        .t-col_12 { width: 100%; }
+        
+        @media (max-width: 960px) {
+            .t-col_4, .t-col_5, .t-col_6 { width: 100%; }
+        }
+        
+        /* Typography */
+        .t-title_xs { font-size: 30px; line-height: 1.35; font-weight: 400; }
+        .t-descr_md { font-size: 18px; line-height: 1.55; }
+        .t-descr_xl { font-size: 20px; line-height: 1.55; }
+        .t-name_xl { font-size: 22px; line-height: 1.35; }
+        .t-text_sm { font-size: 16px; }
+        
+        .t-align_center { text-align: center; }
+        .t-align_left { text-align: left; }
+        .t-margin_auto { margin-left: auto; margin-right: auto; }
+        
+        /* Buttons */
+        .t-btn, .t-btnflex {
+            display: inline-block;
+            padding: 12px 30px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .t-btnflex { display: inline-flex; align-items: center; justify-content: center; }
+        .t-btnflex_sm { padding: 10px 25px; font-size: 15px; }
+        
+        /* Desktop Menu */
+        .t228 {
+            background: rgba(255,255,255,0.7);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            height: 70px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .t228__maincontainer {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .t228__leftside, .t228__rightside { min-width: 92px; }
+        .t228__centerside { flex: 1; }
+        .t228__list { display: flex; list-style: none; margin: 0; padding: 0; }
+        .t228__list_item { padding: 0 20px; }
+        .t-menu__link-item {
+            color: #0d0d0d;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        
+        /* Mobile Menu */
+        .tmenu-mobile {
+            background: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 990;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .tmenu-mobile__container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            min-height: 64px;
+        }
+        
+        /* Burger button */
+        .burger-btn {
+            width: 30px;
+            height: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .burger-btn span {
+            width: 100%;
+            height: 3px;
+            background: #000;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .burger-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+        
+        .burger-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .burger-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+        
+        /* Mobile menu overlay */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            z-index: 989;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu-overlay.active {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu-nav {
+            padding: 20px;
+        }
+        
+        .mobile-menu-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .mobile-menu-nav li {
+            border-bottom: 1px solid #f2f2f2;
+        }
+        
+        .mobile-menu-nav a {
+            display: block;
+            padding: 15px 0;
+            color: #0d0d0d;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        
+        .mobile-menu-lang {
+            padding: 20px;
+            border-top: 2px solid #f2f2f2;
+        }
+        
+        .mobile-menu-lang a {
+            margin-right: 15px;
+            color: #0d0d0d;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 980px) {
+            .t228 { display: none; }
+            .tmenu-mobile { display: block; }
+        }
+        
+        /* Records spacing */
+        .t-rec_pt_90 { padding-top: 90px; }
+        .t-rec_pt_75 { padding-top: 75px; }
+        .t-rec_pt_45 { padding-top: 45px; }
+        .t-rec_pt_15 { padding-top: 15px; }
+        .t-rec_pb_120 { padding-bottom: 120px; }
+        .t-rec_pb_75 { padding-bottom: 75px; }
+        .t-rec_pb_0 { padding-bottom: 0; }
+        
+        @media (max-width: 480px) {
+            .t-rec_pt-res-480_75 { padding-top: 75px !important; }
+            .t-rec_pt-res-480_60 { padding-top: 60px !important; }
+            .t-rec_pb-res-480_60 { padding-bottom: 60px !important; }
+            .t-rec_pb-res-480_30 { padding-bottom: 30px !important; }
+            .t-rec_pb-res-480_0 { padding-bottom: 0 !important; }
+        }
+        
+        /* Background images */
+        .t-bgimg {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        /* Cards */
+        .t-card__container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+        
+        .t853__col {
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+        
+        /* Social links */
+        .t-sociallinks__wrapper {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .t-sociallinks__item a {
+            display: block;
+            width: 48px;
+            height: 48px;
+        }
+        
+        /* Form styles */
+        .email-container {
+            padding: 20px 15px;
+        }
+        
+        .form-wrapper {
+            max-width: 600px;
+            margin: 40px auto;
+        }
+        
+        .form-wrapper label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+        
+        .form-wrapper input,
+        .form-wrapper textarea {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1px solid #000;
+            border-radius: 6px;
+            color: #000;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+        }
+        
+        .form-wrapper button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+        
+        .form-wrapper button:hover {
+            background: #333;
+        }
+        
+        /* Stepper/Slider */
+        .container {
+            padding: 20px 15px;
+        }
+        
+        .stepper-mobile {
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .stepper-slide {
+            display: none;
+            flex-direction: column;
+        }
+        
+        .stepper-slide.active {
+            display: flex;
+        }
+        
+        .stepper-text {
+            background: #f4eff7;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+        
+        .stepper-text b { font-style: italic; }
+        
+        .stepper-img-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
+        .stepper-img {
+            width: 100%;
+            display: block;
+        }
+        
+        .stepper-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 38px;
+            height: 38px;
+            background: #c4bc7a;
+            border-radius: 50%;
+            z-index: 10;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .stepper-arrow.left { left: 10px; }
+        .stepper-arrow.right { right: 10px; }
+        
+        .stepper-arrow.left::after {
+            content: '‹';
+            font-size: 28px;
+            color: white;
+            position: absolute;
+            left: 11px;
+            top: -3px;
+        }
+        
+        .stepper-arrow.right::after {
+            content: '›';
+            font-size: 28px;
+            color: white;
+            position: absolute;
+            left: 13px;
+            top: -3px;
+        }
+
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+}
+
+/* основна кнопка */
+.fab-main {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: #bfbc8a;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* хрестик */
+.fab-close {
+  position: absolute;
+  right: -72px;
+  bottom: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-10px);
+  transition: 0.3s;
+}
+
+/* соц кнопки */
+.fab-item {
+  position: absolute;
+  right: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.fab.open .fab-item {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.fab.open .whatsapp { bottom: 70px; }
+.fab.open .telegram { bottom: 130px; }
+
+.whatsapp { background: #25D366; }
+.telegram { background: #2AABEE; }
+
+/* показ хрестика */
+.fab.open .fab-close {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+
+
+* { box-sizing: border-box; }
+/* 
+body {
+  margin: 0;
+  padding: 40px;
+  background: #111;
+  font-family: Arial, sans-serif;
+} */
+
+/* ===== SLIDER ===== */
+.slider {
+  max-width: 960px;
+  margin: 0 auto;
+  position: relative;
+  margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 35px;
+}
+
+/* hide radios */
+input[type="radio"] {
+  display: none;
+}
+
+/* ===== SLIDES ===== */
+.overflow {
+  overflow: hidden;
+}
+
+.slider-inner {
+  display: flex;            /* используем flex вместо float */
+  transition: margin-left 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+  width: 100%;              /* будет управляться через flex */
+}
+
+.slide {
+  flex: 0 0 100%;           /* каждый слайд занимает 100% ширины слайдера */
+  position: relative;
+  height: 600px;             /* фиксированная высота */
+  overflow: hidden;          /* обрезаем лишнее */
+}
+
+/* image */
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;         
+  display: block;
+}
+
+/* ===== DARK OVERLAY (15%) ===== */
+.slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7); /* ← 40% тени */
+  z-index: 1;
+}
+
+/* ===== TEXT ===== */
+.caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  padding: 24px 16px;
+  text-align: center;
+  color: #fff;
+
+  z-index: 2; /* текст поверх тени */
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.6),
+    rgba(0,0,0,0)
+  );
+}
+
+.caption h2 {
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+.caption p {
+  margin-top: 6px;
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+
+/* ===== SWITCHING ===== */
+#s1:checked ~ .slides .slider-inner { margin-left: 0; }
+#s2:checked ~ .slides .slider-inner { margin-left: -100%; }
+#s3:checked ~ .slides .slider-inner { margin-left: -200%; }
+#s4:checked ~ .slides .slider-inner { margin-left: -300%; }
+#s5:checked ~ .slides .slider-inner { margin-left: -400%; }
+#s6:checked ~ .slides .slider-inner { margin-left: -500%; }
+
+/* ===== DOTS ===== */
+.dots {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.dots label {
+  width: 14px;
+  height: 14px;
+  background: #777;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 6px;
+  cursor: pointer;
+}
+
+#s1:checked ~ .dots label:nth-child(1),
+#s2:checked ~ .dots label:nth-child(2),
+#s3:checked ~ .dots label:nth-child(3),
+#s4:checked ~ .dots label:nth-child(4),
+#s5:checked ~ .dots label:nth-child(5),
+#s6:checked ~ .dots label:nth-child(6) {
+  background: #fff;
+}
+
+/* ===== MOBILE ===== */
+/* @media (max-width: 600px) {
+  .caption h2 {
+    font-size: 1.6rem;
+  }
+  .caption p {
+    font-size: 1rem;
+  }
+} */
+
+
+
+#contactForm button {
+  width: 100%;
+  display: block;
+}
+
+    </style>
+</head>
+
+<body class="t-body" style="margin:0;">
+    <div id="allrecords" class="t-records">
+        
+        <!-- Mobile Menu -->
+        <div class="tmenu-mobile">
+            <div class="tmenu-mobile__container">
+                <div class="tmenu-mobile__burgerlogo">
+                    <a href="https://www.instagram.com/lashbrow_opole/">
+                        <img src="https://static.tildacdn.net/tild3434-3638-4631-b236-373763323937/d8b2b7dc-76d8-4d40-b.png" style="max-width: 30px;" alt="">
+                    </a>
+                </div>
+                <div class="burger-btn" id="burgerBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+            <nav class="mobile-menu-nav">
+                <ul>
+                    <li><a href="#omnie" class="mobile-menu-link">O mnie</a></li>
+                    <li><a href="#programy" class="mobile-menu-link">Programy szkoleń</a></li>
+                    <li><a href="#galeria" class="mobile-menu-link">Galeria prac</a></li>
+                    <li><a href="#opinie" class="mobile-menu-link">Opinie kursantek</a></li>
+                    <li><a href="#kontakt" class="mobile-menu-link">Kontakt</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-lang">
+                <a href="http://lashbrowopole.tilda.ws">PL</a>
+                <a href="http://lashbrowopole.tilda.ws/ua">УКР</a>
+            </div>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="t228">
+            <div class="t228__maincontainer">
+                <div class="t228__leftside">
+                    <a href="https://www.instagram.com/lashbrow_opole/">
+                        <img src="https://static.tildacdn.net/tild3434-3638-4631-b236-373763323937/d8b2b7dc-76d8-4d40-b.png" style="max-width: 30px;" alt="">
+                    </a>
+                </div>
+                <div class="t228__centerside">
+                    <nav>
+                        <ul class="t228__list">
+                            <li class="t228__list_item">
+                                <a class="t-menu__link-item" href="#omnie">O mnie</a>
+                            </li>
+                            <li class="t228__list_item">
+                                <a class="t-menu__link-item" href="#programy">Programy szkoleń</a>
+                            </li>
+                            <li class="t228__list_item">
+                                <a class="t-menu__link-item" href="#galeria">Galeria prac</a>
+                            </li>
+                            <li class="t228__list_item">
+                                <a class="t-menu__link-item" href="#opinie">Opinie kursantek</a>
+                            </li>
+                            <li class="t228__list_item">
+                                <a class="t-menu__link-item" href="#kontakt">Kontakt</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="t228__rightside">
+                    <a href="http://lashbrowopole.tilda.ws" style="margin: 0 10px; color: #0d0d0d; text-decoration: none;">PL</a>
+                    <a href="http://lashbrowopole.tilda.ws/ua" style="color: #0d0d0d; text-decoration: none;">УКР</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="t-rec t-rec_pt_90 t-rec_pb_120" style="background:#fff; padding-top:75px;">
+            <div class="t-container t-container_flex">
+                <div class="t-col t-col_6">
+                    <img src="https://static.tildacdn.net/tild3035-3835-4838-b331-333161343562/IMG_4386_2.JPG" alt="">
+                </div>
+                <div class="t-col t-col_6" style="background: #f2f2f2; padding: 40px; display: flex; align-items: center; margin-top: 30px">
+                    <div>
+                        <h1 class="t-title_xs" style="margin-top:0;">
+                            <strong><em>Kurs stylizacji brwi i rzęs w Opolu</em></strong>
+                        </h1>
+                        <div class="t-descr_md" style="margin: 20px 0;">
+                            Nauczysz się wykonywać laminacje i stylizacje brwi oraz laminacje rzęs — <strong><em>pod okiem Wicemistrzyni Polski Browista 2025</em></strong>
+                        </div>
+                        <a href="#programy" class="t-btn" style="background:#000; color:#fff; margin-top:20px;">Zobacz programy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- O mnie Section -->
+        <div id="omnie" class="t-rec t-rec_pt_75 t-rec_pb_75" style="background: #f2f2f2; margin-top: -75px;">
+            <div class="t-container t-container_flex">
+                <div class="t-col t-col_5">
+                    <h2 style="margin-top: -35px;" class="t-title_xs"><strong><em>Twoja mentorka w świecie brwi i rzęs</em></strong></h2>
+                    <div class="t-descr_md" style="margin-top: 20px;">
+                        <!-- <p>Nazywam się Luda i od 5 lat zajmuję się stylizacją brwi i rzęs oraz makijażem permanentnym.</p>
+                        <p>Podczas szkolenia jestem z Tobą od pierwszej minuty. Prowadzę Cię krok po kroku — od teorii, przez praktykę, aż po zrozumienie, <strong>dlaczego coś robisz w określony sposób</strong>.</p>
+                        <p>Moim celem jest, żebyś po szkoleniu <strong>nie tylko wiedziała, jak wykonać zabieg</strong>, ale żebyś miała pewność, że potrafisz to zrobić samodzielnie.</p>
+                     -->
+                    <p>Nazywam się Luda i od 5 lat zajmuję się stylizacją brwi i rzęs oraz makijażem permanentnym.</p>
+<p>Posiadam certyfikaty i doświadczenie w pracy z klientkami oraz w szkoleniach indywidualnych.</p>
+<p>Podczas szkolenia jestem z Tobą od pierwszej minuty. Prowadzę Cię krok po kroku — od teorii, przez praktykę, aż po zrozumienie, <strong>dlaczego coś robisz w określony sposób.</strong></p>
+<p>Nie uczę szablonów. Uczę myślenia, patrzenia i czucia. Każdą uczestniczkę traktuję indywidualnie — dostosowuję tempo, styl pracy i poziom wiedzy do Ciebie. <strong>Moim celem jest, żebyś po szkoleniu nie tylko wiedziała, jak wykonać zabieg</strong>, ale żebyś miała pewność, że potrafisz to zrobić samodzielnie, bez stresu i z dumą.
+Chcę Cię przeprowadzić z punktu, w którym się uczysz — do momentu, gdy możesz z pełnym spokojem i pewnością przyjąć swoją pierwszą klientkę.</p>
+                      </div>
+                </div>
+                <div class="t-col t-col_6" style="margin-left: 8.333%;">
+                    <img src="https://static.tildacdn.net/tild3032-3634-4966-b964-653834313333/noroot.png" alt="" style="margin-bottom: 20px;">
+                    <img src="https://static.tildacdn.net/tild6538-6530-4632-b531-656564393932/noroot.png" alt="">
+                </div>
+            </div>
+        </div>
+
+        <!-- Programy Section -->
+        <div id="programy" class="t-rec t-rec_pt_45 t-rec_pb_75">
+            <div class="t-section__container t-container">
+                <div class="t-col t-col_12">
+                    <div class="t-section__title t-title_xs t-align_center t-margin_auto">
+                        <strong><em>Programy szkoleń<br>z pełnym wsparciem po kursie</em><br></strong>
+                        <span class="t-descr_md">Możliwość płatności w ratach — zapytaj o szczegóły przy zapisie!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="t-card__container t-container" style="margin-top: 60px;">
+                <div class="t853__col t-col_4">
+                    <div style="background: #fff; padding: 20px; height: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <img src="https://static.tildacdn.net/tild3262-3038-4137-a265-373031363633/noroot.png" alt="" style="margin-bottom: 20px;">
+                        <h3 style="font-family: Georgia; font-size: 20px;"><strong><em>Stylizacja brwi farbką (indywidualny kurs)</em></strong></h3>
+                        <p>Po tym kursie będziesz potrafiła tworzyć brwi, które wyglądają pięknie nie tylko zaraz po zabiegu, ale także na co dzień. Indywidualny kurs farbowania brwi bez schematów i geometrii — tylko świadome podejście i dopasowanie do Ciebie.
+W jeden dzień nauczysz się tworzyć brwi naturalne, harmonijne i estetyczne.
+</p><p><strong>W programie:</strong>
+<br>• teoria dopasowania kształtu i koloru,
+<br>• pokaz na modelce krok po kroku,
+<br>• praktyka na 2 modelkach z moim wsparciem,
+<br>• psychologia pracy z klientką,
+<br>• nauka robienia zdjęć i budowania profilu stylistki.
+<br><em>Czas trwania: 1 dzień (8 godzin) oraz przerwa na pyszny obiad.</em>
+<br><strong>Certyfikat po zakończeniu.</strong></p>
+                        <a href="#kontakt" class="t-btn" style="background:#bfbc8a; color:#333; width:100%; margin-top:20px;">1500 zł</a>
+                    </div>
+                </div>
+
+                <div class="t853__col t-col_4">
+                    <div style="background: #fff; padding: 20px; height: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <img src="https://static.tildacdn.net/tild3530-3939-4632-b866-356639653561/IMG_9918.PNG" alt="" style="margin-bottom: 20px;">
+                        <h3 style="font-family: Georgia; font-size: 20px;"><em>Indywidualny <br>kurs laminacji rzęs</em></h3>
+                        <!-- <p style="font-size: 16px; line-height: 1.5;">W jeden dzień nauczysz się całego procesu laminacji — od teorii po samodzielną pracę z modelkami.</p> -->
+                        <p>
+                          W jeden dzień nauczysz się całego procesu laminacji — od teorii po samodzielną pracę z modelkami. Bez stresu, za to z pełnym zrozumieniem i wsparciem na każdym etapie. 
+<br><strong>W programie:</strong> 
+<br>• poznasz zasady higieny i bezpieczeństwa pracy, 
+<br>• nauczysz się dobierać wałeczki do typu oka i długości rzęs, 
+<br>• pokażę Ci, jak unikać najczęstszych błędów podczas zabiegu, 
+<br>• pokaz krok po kroku na modelce, 
+<br>• praktyka na 2 modelkach z moim wsparciem, 
+<br>• psychologia pracy z klientką, 
+<br>• nauka robienia zdjęć i tworzenia portfolio. 
+<br><em>Czas trwania: 1 dzień (8 godzin) oraz przerwa na pyszny obiad. </em>
+<br><strong>Certyfikat po zakończeniu.</strong>
+                        </p>
+                        <a href="#kontakt" class="t-btn" style="background:#bfbc8a; color:#333; width:100%; margin-top:20px;">1500 zł</a>
+                    </div>
+                </div>
+
+                <div class="t853__col t-col_4">
+                    <div style="background: #fff; padding: 20px; height: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <img src="https://static.tildacdn.net/tild3265-3631-4239-a562-633839643530/noroot.png" alt="" style="margin-bottom: 20px;">
+                        <h3 style="font-family: Georgia; font-size: 20px;"><strong><em>Indywidualny kurs <br>laminacji brwi</em></strong></h3>
+                        <!-- <p style="font-size: 16px; line-height: 1.5;">Nauczysz się wykonywać laminację brwi w bezpieczny, przemyślany i estetyczny sposób.</p> -->
+                        <p>
+Nauczysz się wykonywać laminację brwi w bezpieczny, przemyślany i estetyczny sposób — tak, by efekt był trwały, naturalny i idealnie dopasowany do każdej klientki. To nie jest kurs o tym, jak nałożyć preparat i go zmyć. To nauka, która pokazuje, jak myśleć, przewidywać efekt i tworzyć brwi, które klientka będzie nosić z dumą.
+<br><strong>W programie:</strong> 
+<br>• poznasz cały proces laminowania brwi krok po kroku,
+<br>• nauczysz się dobierać produkty do różnych typów włosa i skóry,
+<br>• dowiesz się, jak uniknąć przesuszenia, łamliwości i innych błędów,
+<br>• opanujesz technikę farbowania po laminacji — bez efektu przerysowania,
+<br>• nauczysz się wykonywać szybki szkic kredką w 1 minutę,
+<br>• pokaz na modelce – pełna procedura z omówieniem każdego etapu,
+<br>• praktyka na 2 modelkach z moim wsparciem i korektą,
+<br>• jak zrobić zdjęcie brwi, które przyciąga uwagę w social mediach.
+<br><em>Czas trwania:1 dzień (8 godzin) z przerwą na pyszny obiad</em>
+<br><strong>Certyfikat po zakończeniu.</strong>
+                        </p>
+                        <a href="#kontakt" class="t-btn" style="background:#bfbc8a; color:#333; width:100%; margin-top:20px;">1500 zł</a>
+                    </div>
+                </div>
+
+                <div class="t853__col t-col_4">
+                    <div style="background: #fff; padding: 20px; height: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <img src="https://static.tildacdn.net/tild3865-6437-4665-a665-626562643262/IMG_9857.PNG" alt="" style="margin-bottom: 20px;">
+                        <h3 style="font-family: Georgia; font-size: 20px;"><strong><em>Expert Brows</em></strong><br><em>kurs 2 w 1 (farbka brwi + laminacja brwi)</em></h3>
+                        <!-- <p style="font-size: 16px; line-height: 1.5;">Kompleksowe szkolenie łączące dwa najpopularniejsze zabiegi — farbowanie i laminację brwi.</p> -->
+                        <p>
+                          <strong>Format: indywidualne szkolenie 1:1</strong>
+<br>To kompleksowe szkolenie, które łączy dwa najpopularniejsze zabiegi stylizacji brwi — farbowanie i laminację. W dwa dni nauczysz się wszystkiego, co potrzebne, by tworzyć idealne, trwałe i dopasowane brwi, niezależnie od typu włosa czy skóry klientki. Zrozumiesz, jak pracować z naturalnym włosem i z włosem po laminacji, jak dobrać kolor, formę i technikę, by efekt był naturalny i harmonijny. To dwa pełne kursy w jednym — w bardziej korzystnej cenie.
+<br><strong>W programie:</strong>
+<br><strong>Dzień 1 – Farbka brwi</strong> 
+<br>• dobór kształtu i koloru indywidualnie, bez schematów,
+<br>• szybki szkic w 1 minutę,
+<br>• praca z trudnymi brwiami (ubytki, asymetria, różna gęstość),
+<br>• pokaz na modelce + Twoja praktyka na 2 modelkach,
+<br>• nauka robienia zdjęć, które przyciągają klientki.
+<br><strong>Dzień 2 – Laminacja + Farbka</strong>
+<br>• pełny proces laminacji krok po kroku,
+<br>• dobór preparatów do typu włosa i skóry,
+<br>• jak uzyskać naturalny efekt farbowania po laminacji,
+<br>• pokaz na modelce + Twoja praktyka na 2 modelkach,
+<br>• nauka tworzenia zdjęć „przed i po”, które sprzedają Twoje usługi.
+<br><strong>Po szkoleniu:</strong>
+<br>• umiesz samodzielnie wykonywać oba zabiegi – farbowanie i laminację brwi,
+<br>• rozumiesz różnice w pracy z naturalnym i laminowanym włosem,
+<br>• masz w portfolio realne prace z modelek,
+<br>• jesteś gotowa przyjmować klientki i zarabiać.
+<br><em>Czas trwania: 2 dni z przerwami na pyszny obiad</em>
+<br><strong>Certyfikat po zakończeniu.</strong>
+                        </p>
+                        <a href="#kontakt" class="t-btn" style="background:#bfbc8a; color:#333; width:100%; margin-top:20px;">2500 zł</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Opinie Section -->
+        <div id="opinie" class="t-rec t-rec_pt_45" style="background: #f2f2f2; margin-top: -75px;">
+            <div class="t-section__container t-container">
+                <div class="t-col t-col_12">
+                    <div class="t-section__title t-title_xs t-align_center t-margin_auto" style="margin-bottom: 40px;">
+                        <strong><em>Co mówią moje kursantki</em></strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="stepper-mobile">
+                    <div class="stepper-slide active">
+                        <div class="stepper-text">
+                            <b>Julia</b><br>
+                            ✨ Hejka, moją główną obawą przed przystąpieniem do kursu było to, że przez nadmiar nowych informacji nic nie zapamiętam, jednak wszystko było tak wytłumaczone i rozplanowane, że tak się nie stało. Najbardziej podobało mi się podejście, atmosfera i to, że oprócz samego wykonywania stylizacji było również wytłumaczone edytowanie zdjęć, filmów i podpowiedzi odnośnie założenia profilu na IG. <br> Wszystko było super, nie czułam się w jakiś sposób lekceważona, tylko zaopiekowana i ostatecznie <strong>wyszłam nawet z większą wiedzą niż zakładałam, że będę mieć </strong>❤️<br><br>
+                            <i>Praca jednej z kursantek na szkoleniu →</i>
+                        </div>
+                        <div class="stepper-img-wrapper">
+                            <img src="https://static.tildacdn.net/tild6132-6433-4666-b233-626666363364/IMG_0081.jpg" alt="Julia" class="stepper-img">
+                            <div class="stepper-arrow left" onclick="previousSlide()"></div>
+                            <div class="stepper-arrow right" onclick="nextSlide()"></div>
+                        </div>
+                    </div>
+
+                    <div class="stepper-slide">
+                        <div class="stepper-text">
+                            <b>Wiktoria</b><br>
+                            Kurs laminacji brwi był świetnym doświadczeniem! 💗 Wszystko zostało wytłumaczone w prosty sposób, a podczas praktyki mogłam liczyć na cierpliwość i wsparcie. Czułam się swobodnie, a przy tym <strong>naprawdę dużo się nauczyłam.</strong> Teraz mam nie tylko wiedzę, ale i pewność w wykonywaniu zabiegu.
+Bardzo polecam, bo atmosfera była przemiła, a podejście do kursantek naprawdę wyjątkowe! <strong>Gdybym wiedziała, że kurs będzie tak wyglądał, zdecydowałabym się na niego dużo szybciej!</strong> Jeszcze raz bardzo dziękuję i na pewno będę polecać dalej 💗<br><br>
+                            <i>Praca jednej z kursantek na szkoleniu →</i>
+                        </div>
+                        <div class="stepper-img-wrapper">
+                            <img src="https://static.tildacdn.net/tild3039-3338-4764-b430-373364346561/IMG_0079.jpg" alt="Wiktoria" class="stepper-img">
+                            <div class="stepper-arrow left" onclick="previousSlide()"></div>
+                            <div class="stepper-arrow right" onclick="nextSlide()"></div>
+                        </div>
+                    </div>
+
+                    <div class="stepper-slide">
+                        <div class="stepper-text">
+                            <b>Marlena</b><br>
+                            Bardzo się cieszę, że zdecydowałam się na szkolenie właśnie u Ciebie! Bardzo podobało mi się, że uparcie zmywałaś mi te kreski i na nowo odciskaj 😂 Obiecuję ćwiczyć, żeby dojść do perfekcji 😉<br><br>
+                            <i>Praca jednej z kursantek na szkoleniu →</i>
+                        </div>
+                        <div class="stepper-img-wrapper">
+                            <img src="https://static.tildacdn.net/tild3530-3934-4131-b837-623065666661/noroot.png" alt="Marlena" class="stepper-img">
+                            <div class="stepper-arrow left" onclick="previousSlide()"></div>
+                            <div class="stepper-arrow right" onclick="nextSlide()"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Slider -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const gallery = document.querySelector('#galeria');
+  if (!gallery) return;
+
+  const sliderInner = gallery.querySelector('.slider-inner');
+  const radioButtons = gallery.querySelectorAll('input[name="slider"]');
+
+  let startX = 0;
+  let currentSlide = 0;
+
+  sliderInner.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  sliderInner.addEventListener('touchend', (e) => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && currentSlide < radioButtons.length - 1) {
+        currentSlide++;
+      } else if (diff < 0 && currentSlide > 0) {
+        currentSlide--;
+      }
+      radioButtons[currentSlide].checked = true;
+    }
+  });
+
+});
+</script>
+
+<div id="galeria" class="slider">
+
+  <input checked type="radio" name="slider" id="s1">
+  <input type="radio" name="slider" id="s2">
+  <input type="radio" name="slider" id="s3">
+  <input type="radio" name="slider" id="s4">
+  <input type="radio" name="slider" id="s5">
+  <input type="radio" name="slider" id="s6">
+
+  <div class="slides">
+    <div class="overflow">
+      <div class="slider-inner">
+
+        <div class="slide">
+          <img src="img/slider/1.png">
+          <div class="caption">
+            <p>Razem uczymy się tworzyć piękno</p>
+          </div>
+        </div>
+
+        <div class="slide">
+          <img src="img/slider/2.jpg">
+          <div class="caption">
+            <p>Brwi dopasowane, nie narysowane</p>
+          </div>
+        </div>
+
+        <div class="slide">
+          <img src="img/slider/3.png">
+          <div class="caption">
+            <p>Moje dziewczyny tworzą cudowne efekty!</p>
+          </div>
+        </div>
+
+        <div class="slide">
+          <img src="img/slider/4.jpg">
+          <div class="caption">
+            <p>Praca mojej kursantki po 1 dniu szkolenia</p>
+          </div>
+        </div>
+
+                <div class="slide">
+          <img src="img/slider/5.png">
+          <div class="caption">
+            <p>ИNaturalny efekt, zero przerysowania</p>
+          </div>
+        </div>
+
+                <div class="slide">
+          <img src="img/slider/6.png">
+          <div class="caption">
+            <p>Napisz do mnie — pomogę Ci wybrać najlepszy kurs dla Ciebie 💌
+Albo po prostu... zapisz się i zacznij swoją drogę już dziś!</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="dots">
+    <label for="s1"></label>
+    <label for="s2"></label>
+    <label for="s3"></label>
+    <label for="s4"></label>
+    <label for="s5"></label>
+    <label for="s6"></label>
+  </div>
+
+</div>
+
+
+        <!-- Kontakt Form -->
+        <div id="kontakt" class="t-rec t-rec_pt_45 t-rec_pb_75" style="background: #f2f2f2;">
+            <div class="t-section__container t-container">
+                <div class="t-col t-col_12">
+                    <div class="t-section__title t-title_xs t-align_center t-margin_auto">
+                        <strong><em>Chcesz dołączyć do kursu lub zadać pytanie?</em></strong>
+                    </div>
+                    <div class="t-descr_xl t-align_center t-margin_auto" style="margin-top: 20px;">
+                        Wypełnij formularz — odezwę się, aby potwierdzić szczegóły.
+                    </div>
+                </div>
+            </div>
+
+            <div class="email-container">
+                <div class="form-wrapper">
+                    <form id="contactForm">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="Email" placeholder="Twój E-mail" required>
+
+                        <label for="name">Imię</label>
+                        <input type="text" id="name" name="Name" placeholder="Imię">
+
+                        <label for="phone">Numer telefonu</label>
+                        <input type="tel" id="phone" name="Phone" placeholder="+48 (000) 000-000">
+
+                        <label for="message">Twoje pytanie lub wiadomość (opcjonalnie)</label>
+                        <textarea id="message" name="Message" rows="3"></textarea>
+
+                        <button type="submit">Zarezerwuj miejsce</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+<div class="fab">
+  <button class="fab-main" onclick="toggleFab()">
+    <svg class="icon-chat" viewBox="0 0 24 24">
+      <path d="M4 4h16v12H7l-3 3V4z" fill="currentColor"/>
+    </svg>
+  </button>
+
+  <button class="fab-close" onclick="toggleFab()">✕</button>
+
+  <a href="https://wa.me/123456789" target="_blank" class="fab-item whatsapp">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+  </a>
+
+  <a href="https://t.me/username" target="_blank" class="fab-item telegram">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg">
+  </a>
+</div>
+
+        <!-- Footer -->
+<div class="t-rec t-rec_pt_15" style="background: url('img/slider/slider_back.jpg') no-repeat center center; background-size: cover; margin-top: -80px;">
+    <div class="t-container">
+        <div style="text-align: center; padding: 40px 0;">
+            <div style="font-size: 24px; margin-bottom: 20px; color: #fff;"">
+                <strong style="font-family: Georgia;">Kontakt:</strong><br>
+                <a href="mailto:somerluda@gmail.com" style="color: #bfbc8a; font-family: Georgia;">somerluda@gmail.com</a><br>
+                <strong style="font-family: Georgia;">Adres:</strong><br>
+                <span style="font-family: Georgia;">Opole, ul. Wrocławska 156a/302</span>
+            </div>
+            
+            <ul class="t-sociallinks__wrapper">
+                <li class="t-sociallinks__item">
+                    <a href="https://www.facebook.com/bobas.bobasek.31/" target="_blank">
+                        <svg width="48" height="48" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="256" cy="256" r="256" fill="#000"/>
+                            <path d="M355.1 256.1h-64v192h-80v-192h-48v-80h48v-48c0-40 24-48 48-48h56v80h-40c-8 0-8 4-8 8v40h48l-8 80z" fill="#fff"/>
+                        </svg>
+                    </a>
+                </li>
+                <li class="t-sociallinks__item">
+                    <a href="https://www.instagram.com/lashbrow_opole/" target="_blank">
+                        <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+                            <path d="M50 100c27.6142 0 50-22.3858 50-50S77.6142 0 50 0 0 22.3858 0 50s22.3858 50 50 50Z" fill="#000"/>
+                            <path d="M50 32.8125c5.5469 0 6.2031.0234 8.3906.125 2.0313.0938 3.1328.4297 3.8672.7109 1.0156.3906 1.7578.8594 2.5234 1.625.7656.7656 1.2344 1.5078 1.625 2.5234.2812.7344.6172 1.8359.7109 3.8672.1016 2.1875.125 2.8437.125 8.3906s-.0234 6.2031-.125 8.3906c-.0938 2.0313-.4297 3.1328-.7109 3.8672-.3906 1.0156-.8594 1.7578-1.625 2.5234-.7656.7656-1.5078 1.2344-2.5234 1.625-.7344.2812-1.8359.6172-3.8672.7109-2.1875.1016-2.8437.125-8.3906.125s-6.2031-.0234-8.3906-.125c-2.0313-.0938-3.1328-.4297-3.8672-.7109-1.0156-.3906-1.7578-.8594-2.5234-1.625-.7656-.7656-1.2344-1.5078-1.625-2.5234-.2812-.7344-.6172-1.8359-.7109-3.8672-.1016-2.1875-.125-2.8437-.125-8.3906s.0234-6.2031.125-8.3906c.0938-2.0313.4297-3.1328.7109-3.8672.3906-1.0156.8594-1.7578 1.625-2.5234.7656-.7656 1.5078-1.2344 2.5234-1.625.7344-.2812 1.8359-.6172 3.8672-.7109 2.1875-.1016 2.8437-.125 8.3906-.125ZM50 27.5c-5.6406 0-6.3438.0234-8.5547.125-2.2031.1016-3.7031.4531-5.0156.9687-1.3594.5313-2.5156 1.2344-3.6641 2.3828-1.1484 1.1485-1.8515 2.3047-2.3828 3.6641-.5156 1.3125-.8672 2.8125-.9687 5.0156C29.0234 43.6562 29 44.3594 29 50s.0234 6.3438.125 8.5547c.1016 2.2031.4531 3.7031.9687 5.0156.5313 1.3594 1.2344 2.5156 2.3828 3.6641 1.1485 1.1484 2.3047 1.8515 3.6641 2.3828 1.3125.5156 2.8125.8672 5.0156.9687 2.2109.1016 2.9141.125 8.5547.125s6.3438-.0234 8.5547-.125c2.2031-.1016 3.7031-.4531 5.0156-.9687 1.3594-.5313 2.5156-1.2344 3.6641-2.3828 1.1484-1.1485 1.8515-2.3047 2.3828-3.6641.5156-1.3125.8672-2.8125.9687-5.0156.1016-2.2109.125-2.9141.125-8.5547s-.0234-6.3438-.125-8.5547c-.1016-2.2031-.4531-3.7031-.9687-5.0156-.5313-1.3594-1.2344-2.5156-2.3828-3.6641-1.1485-1.1484-2.3047-1.8515-3.6641-2.3828-1.3125-.5156-2.8125-.8672-5.0156-.9687-2.2109-.1016-2.9141-.125-8.5547-.125Z" fill="#fff"/>
+                            <path d="M50 39.1094c-6.0156 0-10.8906 4.875-10.8906 10.8906S43.9844 60.8906 50 60.8906 60.8906 56.0156 60.8906 50 56.0156 39.1094 50 39.1094Zm0 17.9688c-3.9062 0-7.0782-3.1719-7.0782-7.0782 0-3.9062 3.172-7.0781 7.0782-7.0781s7.0781 3.1719 7.0781 7.0781c0 3.9063-3.1719 7.0782-7.0781 7.0782ZM64.1406 38.6719c0 1.4062-1.1406 2.5469-2.5469 2.5469-1.4062 0-2.5468-1.1407-2.5468-2.5469 0-1.4063 1.1406-2.5469 2.5468-2.5469 1.4063 0 2.5469 1.1406 2.5469 2.5469Z" fill="#fff"/>
+                        </svg>
+                    </a>
+                </li>
+<li class="t-sociallinks__item">
+    <a href="https://project20971486.tilda.ws/" target="_blank">
+        <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Черный круг -->
+            <circle cx="50" cy="50" r="50" fill="#000"/>
+            <!-- Белая книжка -->
+            <path d="M30 25 H70 V75 H30 Z" fill="#fff"/>
+            <path d="M30 25 H70 V35 H30 Z" fill="#000"/>
+            <line x1="40" y1="40" x2="60" y2="40" stroke="#000" stroke-width="2"/>
+            <line x1="40" y1="50" x2="60" y2="50" stroke="#000" stroke-width="2"/>
+            <line x1="40" y1="60" x2="60" y2="60" stroke="#000" stroke-width="2"/>
+        </svg>
+    </a>
+</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+    <script>
+        // button for socail media
+        function toggleFab() {
+          document.querySelector('.fab').classList.toggle('open');
+        }
+
+        // Mobile menu toggle
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+        burgerBtn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                burgerBtn.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+            });
+        });
+
+        // Stepper functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.stepper-slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // EmailJS initialization
+        (function(){
+            emailjs.init("bF1B5n8kPPRpBdWAY");
+        })();
+
+        // Form submission
+        const form = document.getElementById("contactForm");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            emailjs.sendForm("service_34wz7qi", "template_5dnhzsq", this)
+                .then(function() {
+                    alert("✅ Wiadomość wysłana pomyślnie!");
+                    form.reset();
+                }, function(error) {
+                    console.error("❌ Błąd wysyłki:", error);
+                    alert("Ups! Coś poszło nie tak.");
+                });
+        });
+    </script>
+</body>
+</html>
